@@ -1,6 +1,7 @@
 # Stack Vs. Queue
 - Stack for Depth-First-Search (DFS)
     - Pre-order traversal (Root, Left, Right)
+    - Reverse pre-order traversal (Root, Right, Left)
     - In-order traversal (Left, Root, Right)
     - Post-order traversal (Left, Right, Root)
 - Queue for Breadth-First-Search (BFS)
