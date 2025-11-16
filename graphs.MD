@@ -35,5 +35,316 @@
 7. Floyd-Warshall Algorithm: An algorithm used to find the shortest paths between all pairs of vertices in a weighted graph. It is an example of a dynamic programming approach.
 
 ```python
+my_graph = {
+    "a": ["b", "c"],
+    "b": ["d"],
+    "c": ["e"],
+    "d": ["f"],
+    "e": [],
+    "f": []
+}
+"""
+typical dfs search - iterative
+"""
+def dfs(graph, source):
+    stack = [source]
 
+    while stack:
+        current = stack.pop()
+        print(current)
+        for neighbor in graph[current]:
+            stack.append(neighbor)
+"""
+typical dfs search - recursive
+"""
+def dfs_recursive(graph, source):
+    print(source)
+    for neighbor in graph[source]:
+        dfs_recursive(graph, neighbor)
+
+"""
+typical bfs search - iterative
+"""
+from collections import deque
+def bfs_iterative(graph, source):
+    queue = deque([source])
+
+    while queue:
+        current = queue.popleft()
+        print(current)
+        for neighbor in graph[current]:
+            queue.append(neighbor)
+"""
+find a path in a graph between 2 nodes
+for undirected graph w/o cycles
+dfs - recursive
+"""
+def has_path_dfs(graph, src, dst):
+    if src == dst:
+        return True
+    
+    for neighbor in graph[src]:
+        if has_path(graph, neighbor, dst):
+            return True
+    
+    return False
+"""
+find a path dfs recursive for graphs that could have cycles.
+"""
+def has_path_dfs_detect_cycle(graph, src, dst, visited):
+    if src == dst:
+        return True
+    
+    if src in visited:
+        return False
+    
+    visited.add(src)
+    
+    for neighbor in graph[src]:
+        if has_path_dfs_detect_cycle(graph, neighbor, dst, visited):
+            return True
+    
+    return False
+"""
+find a path in a graph between 2 nodes
+for undirected graph w/o cycles
+bfs - iterative
+"""
+from collections import deque
+def has_path_bfs(graph, src, dst):
+    queue = deque([src])
+    while queue:
+        current = queue.popleft()
+        if current == dst:
+            return True
+        
+        for neighbor in graph[current]:
+            queue.append(neighbor)
+    
+    return False
+
+# build directed graph from list of edges
+edges = [
+    ("i", "j"),
+    ("k", "i"),
+    ("m", "k"),
+    ("k", "l"),
+    ("o", "n")
+]
+
+def build_graph(edges):
+    graph = {}
+    for edge in edges:
+        a, b = edge 
+        if a not in graph:
+            graph[a] = []
+        if b not in graph:
+            graph[b] = []
+        graph[a].append(b)
+        graph[b].append(a)
+    return graph
+
+"""
+connected components
+"""
+connected_count = {
+    0: [8, 1, 5], 
+    1: [0],
+    5: [0, 8],
+    8: [0, 5],
+    2: [3, 4],
+    3: [2, 4],
+    4: [3, 2]
+}
+
+def explore(graph, current, visited):
+    if current in visited:
+        return False
+
+    visited.add(current)
+
+    for neighbor in graph[current]:
+        explore(graph, neighbor, visited)
+
+    return True
+
+def connect_component_count(graph):
+    visited = set()
+    count = 0
+
+    for node in graph:
+        if explore(graph, node, visited):
+            count += 1
+    return count
+
+"""
+check for largest component in a graph
+"""
+all_components = {
+    0: [8, 1, 5], 
+    1: [0],
+    5: [0, 8],
+    8: [0, 5],
+    2: [3, 4],
+    3: [2, 4],
+    4: [3, 2]
+}
+
+def explore_size(graph, node, visited):
+    if node in visited:
+        return 0
+    
+    visited.add(node)
+    size = 1
+    for neighbor in graph[node]:
+        size += explore_size(graph, neighbor, visited)
+
+    return size
+
+def largest_component(graph):
+    longest = 0
+    visited = set()
+    for node in graph:
+        size = explore_size(graph, node, visited)
+        if size > longest:
+            longest = size
+    return longest
+
+
+"""
+shortest path between 2 nodes
+
+"""
+edges = [
+    ["w", "x"],
+    ["x", "y"],
+    ["z", "y"],
+    ["z", "v"],
+    ["w", "v"]
+]
+
+def build_graph(edges):
+    graph = {}
+    for edge in edges:
+        a, b = edge 
+        if a not in graph:
+            graph[a] = []
+        if b not in graph:
+            graph[b] = []
+        graph[a].append(b)
+        graph[b].append(a)
+    return graph
+
+def shortest_path(edges, node_a, node_b):
+
+    graph = build_graph(edges)
+    visited = set([node_a])
+    queue = deque([(node_a, 0)])
+
+    while queue:
+        node, distance = queue.popleft()
+        if node == node_b:
+            return distance
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, distance + 1))
+    
+    return -1
+
+
+"""
+Count island in a matrix,
+land vs water
+"""
+grid = [
+    ["W", "L", "W", "W", "W"],
+    ["W", "L", "W", "W", "W"],
+    ["W", "W", "W", "L", "W"],
+    ["W", "W", "L", "L", "W"],
+    ["L", "W", "W", "L", "L"],
+    ["L", "L", "W", "W", "W"],
+]
+
+def explore(grid, r, c, visited):
+    row_inbound = 0 <= r and r < len(grid)
+    col_inbound = 0 <= c and c < len(grid[0])
+    if not row_inbound or not col_inbound:
+        return False
+
+    if grid[r][c] == "W":
+        return False
+
+    position = str(r) + "," + str(c)
+
+    if position in visited:
+        return False
+    
+    visited.add(position)
+
+    explore(grid, r - 1, c, visited)
+    explore(grid, r + 1, c, visited)
+    explore(grid, r, c - 1, visited)
+    explore(grid, r, c + 1, visited)
+
+    return True
+
+
+
+def island_count(grid):
+    visited = set()
+    count = 0
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            if explore(grid, r, c, visited):
+                print(r, c)
+                count += 1
+    
+    return count
+
+
+"""
+Count the minimum number of island
+"""
+grid = [
+    ["W", "L", "W", "W", "W"],
+    ["W", "L", "W", "W", "W"],
+    ["W", "W", "W", "L", "W"],
+    ["W", "W", "L", "L", "W"],
+    ["L", "W", "W", "L", "L"],
+    ["L", "L", "W", "W", "W"],
+]
+
+def explore_size(grid, r, c, visited):
+    row_inbound = 0 <= r and r < len(grid)
+    col_inbound = 0 <= c and c < len(grid[0])
+    if not row_inbound or not col_inbound:
+        return 0
+
+    if grid[r][c] == "W":
+        return 0
+
+    position = str(r) + "," + str(c)
+
+    if position in visited:
+        return 0
+    
+    visited.add(position)
+    size = 1
+    size += explore_size(grid, r - 1, c, visited)
+    size += explore_size(grid, r + 1, c, visited)
+    size += explore_size(grid, r, c - 1, visited)
+    size += explore_size(grid, r, c + 1, visited)
+
+    return size
+
+def minimum_island(grid):
+    visited = set()
+    min_count = float("inf")
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            current_size = explore_size(grid, r, c, visited)
+            if current_size > 0 and current_size < min_count:
+                min_count = current_size
+    return min_count
 ```
