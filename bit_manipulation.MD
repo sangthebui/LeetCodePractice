@@ -57,3 +57,18 @@ int BSF(unsigned int x){
 
 t = x | (x - 1)
 x = (t + 1) | ((~t& - (~t)) - 1) >> (BSF(x) + 1)
+
+
+### # Function to calculate hamming distance 
+```python
+def hammingDistance(n1, n2) :
+
+    x = n1 ^ n2 
+    setBits = 0
+
+    while (x > 0) :
+        setBits += x & 1
+        x >>= 1
+    
+    return setBits 
+```
