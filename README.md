@@ -1,2 +1,4 @@
 # LeetCode
-Working on problems in code leet
+Working on problems in LeetCode!
+
+- 
