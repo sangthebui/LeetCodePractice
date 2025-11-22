@@ -1,20 +1,24 @@
-#  Graphs
+# Graphs
+
 - Definition: A graph $G$ is a non-linear data structure consisting of a set of vertices (or nodes) $V$ and a set of edges (or arcs) $E$ that connect pairs of vertices.
 
-- Vertex (Node): Represents an entity or object in the real world (e.g., a city, a person, a webpage).Edge (Arc): Represents a relationship or connection between two vertices. 
+- Vertex (Node): Represents an entity or object in the real world (e.g., a city, a person, a webpage).Edge (Arc): Represents a relationship or connection between two vertices.
 
 - An edge $e$ is often expressed as an ordered or unordered pair of vertices $(u, v)$.
 
 - Types of Graphs:
-    - Undirected Graph: Edges have no direction; if $(u, v)$ is an edge, you can travel from $u$ to $v$ and from $v$ to $u$.
-    - Directed Graph (Digraph): Edges have a specific direction, meaning the connection is one-way.
+
+  - Undirected Graph: Edges have no direction; if $(u, v)$ is an edge, you can travel from $u$ to $v$ and from $v$ to $u$.
+  - Directed Graph (Digraph): Edges have a specific direction, meaning the connection is one-way.
 
 - Weighted vs. Unweighted:
-    - Weighted Graph: Each edge has an associated numerical value called a weight or cost (e.g., distance, time, or cost).- Unweighted Graph: All edges are considered to have the same or no weight.
 
-- Adjacency and Path:Adjacency: 
-    - Two vertices are adjacent if they are connected by an edge.
-    - Path: A sequence of edges that connects a sequence of distinct vertices.
+  - Weighted Graph: Each edge has an associated numerical value called a weight or cost (e.g., distance, time, or cost).- Unweighted Graph: All edges are considered to have the same or no weight.
+
+- Adjacency and Path:Adjacency:
+
+  - Two vertices are adjacent if they are connected by an edge.
+  - Path: A sequence of edges that connects a sequence of distinct vertices.
 
 - Representation: Graphs are typically represented in a computer using two main methods: the Adjacency Matrix or the Adjacency List.
 
@@ -22,7 +26,11 @@
 
 1. Breadth-First Search (BFS): An algorithm used for traversing (or searching) a graph data structure. It explores a graph layer by layer, visiting all the neighbors of a starting node first, before moving to the next level of neighbors. It is often used to find the shortest path in unweighted graphs.
 
+   - **Need to use a Queue regardless of using recursion or iteratively**
+
 2. Depth-First Search (DFS): Also a traversal algorithm that explores as far as possible along each branch before backtracking. It uses a stack (or recursion) and is useful for tasks like topological sorting, finding connected components, and cycle detection.
+
+   - **The reason that a stack is not needed when using recursion is because we leverage the call stack to holds its unvisited node.**
 
 3. Dijkstra's Algorithm: A famous shortest path algorithm that finds the shortest paths from a single starting vertex to all other vertices in a weighted graph with non-negative edge weights. It is widely used in network routing.
 
@@ -79,31 +87,60 @@ find a path in a graph between 2 nodes
 for undirected graph w/o cycles
 dfs - recursive
 """
+graph = {
+    "f": ["g", "i"],
+    "g": ["h"],
+    "h": [],
+    "i": ["g", "k"],
+    "j": ["i"],
+    "k": []
+}
 def has_path_dfs(graph, src, dst):
     if src == dst:
         return True
-    
+
     for neighbor in graph[src]:
         if has_path(graph, neighbor, dst):
             return True
-    
+
     return False
+
+"""
+A has_path for acyclic graph that is iteratively using a queue
+
+"""
+from collections import deque
+def has_path(graph, src, dst):
+
+    queue = deque([src])
+
+    while queue:
+        current = queue.popleft()
+
+        if current == dst:
+            return True
+
+        for neighbor in graph[current]:
+            queue.append(neighbor)
+
+    return False
+
 """
 find a path dfs recursive for graphs that could have cycles.
 """
 def has_path_dfs_detect_cycle(graph, src, dst, visited):
     if src == dst:
         return True
-    
+
     if src in visited:
         return False
-    
+
     visited.add(src)
-    
+
     for neighbor in graph[src]:
         if has_path_dfs_detect_cycle(graph, neighbor, dst, visited):
             return True
-    
+
     return False
 """
 find a path in a graph between 2 nodes
@@ -117,10 +154,10 @@ def has_path_bfs(graph, src, dst):
         current = queue.popleft()
         if current == dst:
             return True
-        
+
         for neighbor in graph[current]:
             queue.append(neighbor)
-    
+
     return False
 
 # build directed graph from list of edges
@@ -135,7 +172,7 @@ edges = [
 def build_graph(edges):
     graph = {}
     for edge in edges:
-        a, b = edge 
+        a, b = edge
         if a not in graph:
             graph[a] = []
         if b not in graph:
@@ -148,7 +185,7 @@ def build_graph(edges):
 connected components
 """
 connected_count = {
-    0: [8, 1, 5], 
+    0: [8, 1, 5],
     1: [0],
     5: [0, 8],
     8: [0, 5],
@@ -181,7 +218,7 @@ def connect_component_count(graph):
 check for largest component in a graph
 """
 all_components = {
-    0: [8, 1, 5], 
+    0: [8, 1, 5],
     1: [0],
     5: [0, 8],
     8: [0, 5],
@@ -193,7 +230,7 @@ all_components = {
 def explore_size(graph, node, visited):
     if node in visited:
         return 0
-    
+
     visited.add(node)
     size = 1
     for neighbor in graph[node]:
@@ -226,7 +263,7 @@ edges = [
 def build_graph(edges):
     graph = {}
     for edge in edges:
-        a, b = edge 
+        a, b = edge
         if a not in graph:
             graph[a] = []
         if b not in graph:
@@ -249,7 +286,7 @@ def shortest_path(edges, node_a, node_b):
             if neighbor not in visited:
                 visited.add(neighbor)
                 queue.append((neighbor, distance + 1))
-    
+
     return -1
 
 
@@ -279,7 +316,7 @@ def explore(grid, r, c, visited):
 
     if position in visited:
         return False
-    
+
     visited.add(position)
 
     explore(grid, r - 1, c, visited)
@@ -297,9 +334,8 @@ def island_count(grid):
     for r in range(len(grid)):
         for c in range(len(grid[0])):
             if explore(grid, r, c, visited):
-                print(r, c)
                 count += 1
-    
+
     return count
 
 
@@ -328,7 +364,7 @@ def explore_size(grid, r, c, visited):
 
     if position in visited:
         return 0
-    
+
     visited.add(position)
     size = 1
     size += explore_size(grid, r - 1, c, visited)
@@ -347,4 +383,33 @@ def minimum_island(grid):
             if current_size > 0 and current_size < min_count:
                 min_count = current_size
     return min_count
+```
+
+# Union-Find
+
+## Naive Approach
+
+```python
+n = 50
+parent = list(range(n + 1))
+"""
+find parent and returns it (recursion)
+"""
+def find(i):
+    if parent[i] == i:
+        return i
+    parent[i] = find(parent[i])
+    return parent[i]
+
+"""
+Union (naive approach)
+"""
+def union(i, j):
+    root_i = find(i)
+    root_j = find(j)
+    if root_i != root_j:
+        parent[root_i] = root_j
+        return True
+    return False
+
 ```
