@@ -74,3 +74,25 @@
 
 - Skip lists
 -
+
+## LeetCode python modules
+
+- **almost all modules from the Python standard library.**
+- **External, third-party libraries (like Django or requests) are generally not available, except for certain exceptions like NumPy and Pandas in specific environments.**
+
+- collections: Provides specialized container datatypes like deque (for O(1) append and pop from both ends, useful for BFS and queues), Counter (for counting hashable objects), and defaultdict.
+- heapq: Offers an implementation of the heap queue algorithm (priority queue), with methods like heappush and heappop, which are crucial for problems involving priority queues or finding the smallest/largest elements efficiently.
+- bisect: Functions for manipulating sorted lists using a binary search algorithm, useful for inserting items into a list while maintaining sorted order.
+- itertools: Functions for creating efficient iterators, such as permutations and combinations, which are helpful for combinatorial problems.
+- math: Provides access to common mathematical functions and constants, useful in many algorithm problems.
+  functools: Contains higher-order functions like lru_cache for memoization (dynamic programming optimization).
+- re: Support for regular expressions.
+- sys: Provides access to some system-specific parameters and functions, such as increasing recursion depth (sys.setrecursionlimit).
+- **sys.setrecursionlimit(10\*\*6)**
+
+### From LeetCode official page for python3
+
+- Most libraries are already imported automatically for your convenience, such as array, bisect, collections. If you need more libraries, you can import it yourself.
+
+- For Map/TreeMap data structure, you may use sortedcontainers library.
+- Python 3.11
