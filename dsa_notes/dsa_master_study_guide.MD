@@ -1,9 +1,11 @@
 # LeetCode Cheatsheet
+
 - From https://jwl-7.github.io/leetcode-cheatsheet/
 
 ## Big 0
 
 ### Time/Space Complexity
+
 Instant: O(1)
 Logarithmic: O(log n)
 Linear: O(n)
@@ -330,6 +332,7 @@ Factorial: O(n!)
 ## Array
 
 ### two pointers: one input, opposite ends
+
 ```python
 def fn(arr):
     ans = 0
@@ -347,6 +350,7 @@ def fn(arr):
 ```
 
 ### two pointers: two inputs, exhaust both
+
 ```python
 def fn(arr1, arr2):
     i = 0
@@ -372,6 +376,7 @@ def fn(arr1, arr2):
 ```
 
 ### sliding window
+
 ```python
 def fn(arr):
     n = len(arr)
@@ -392,6 +397,7 @@ def fn(arr):
 ```
 
 ### prefix sum
+
 ```python
 def fn(arr):
     n = len(arr)
@@ -404,6 +410,7 @@ def fn(arr):
 ```
 
 ### efficient string building
+
 ```python
 def fn(strs: list[str]):
     ans = []
@@ -436,6 +443,7 @@ def fn(arr, k):
 ```
 
 ### sliding window
+
 ```python
 def fn(arr):
     window = set()
@@ -454,9 +462,11 @@ def fn(arr):
     return ans
 
 ```
+
 ## Linked List
 
 ### fast and slow pointer
+
 ```python
 def fn(head):
     slow = head
@@ -472,6 +482,7 @@ def fn(head):
 ```
 
 ### reverse linked list
+
 ```python
 def fn(head):
     prev = None
@@ -486,10 +497,10 @@ def fn(head):
     return prev
 ```
 
-
 ## Stack
 
 ### monotonic increasing stack
+
 ```python
 def fn(arr):
     stack = []
@@ -505,6 +516,7 @@ def fn(arr):
 ```
 
 ### monotonic decreasing stack
+
 ```python
 def fn(arr):
     stack = []
@@ -523,6 +535,7 @@ def fn(arr):
 ## Binary Tree
 
 ### DFS (recursive)
+
 ```python
 def dfs(root):
     if not root:
@@ -536,8 +549,35 @@ def dfs(root):
 
     return ans
 ```
-### DFS (iterative)
 
+### DFS (recursive w/ backtracking)
+
+```python
+# get all the numbers from node to leaf for all leaves
+def allValueLeaf(root) -> int:
+    all_paths = []
+
+    def backtrack(node, current_path):
+        if not node:
+            return
+
+        current_path.append(node.val)
+
+        if not node.left and not node.right:
+            all_paths.append(list(current_path))
+        else:
+            backtrack(node.left, current_path)
+            backtrack(node.right, current_path)
+
+
+        current_path.pop()
+
+    backtrack(root, [])
+
+    return all_paths
+```
+
+### DFS (iterative)
 
 ```python
 def dfs(root):
@@ -583,6 +623,7 @@ def fn(root):
 ## Graph
 
 ### DFS (recursive)
+
 ```python
 def fn(graph):
     def dfs(node):
@@ -601,6 +642,7 @@ def fn(graph):
 ```
 
 ### DFS (iterative)
+
 ```python
 def fn(graph):
     stack = [START_NODE]
@@ -619,6 +661,7 @@ def fn(graph):
 ```
 
 ### BFS
+
 ```python
 from collections import deque
 
@@ -640,6 +683,7 @@ def fn(graph):
 ```
 
 ### Dijkstra (shortest path)
+
 ```python
 from heapq import heappop, heappush
 
@@ -668,6 +712,7 @@ def dijkstras(graph: list[list[tuple[int, int]]], source: int) -> list[int]:
 ```
 
 ### Bellman-Ford (shortest path)
+
 ```python
 def bellman_ford(n: int, edges: list[tuple[int, int, int]], source: int) -> list[int]:
     distances = [float('inf')] * n
@@ -686,6 +731,7 @@ def bellman_ford(n: int, edges: list[tuple[int, int, int]], source: int) -> list
 ```
 
 ### Kahn (topological sort)
+
 ```python
 from collections import defaultdict, deque
 
@@ -715,6 +761,7 @@ def kahn_topological_sort(graph: dict[int, list[int]]) -> list[int]:
 ```
 
 ### Kruskal (mst)
+
 ```python
 def kruskal_mst(n: int, edges: list[tuple[int, int, int]]) -> list[tuple[int, int, int]]:
     mst = []
@@ -731,6 +778,7 @@ def kruskal_mst(n: int, edges: list[tuple[int, int, int]]) -> list[tuple[int, in
 ```
 
 ### Prim (mst)
+
 ```python
 from heapq import heappop
 
@@ -752,10 +800,11 @@ def prim_mst(n: int, edges: list[tuple[int, int, int]]) -> list[tuple[int, int, 
 ```
 
 ### Floyd-Warshall (shortest path)
+
 ```python
 def floyd_warshall(n: int, edges: list[tuple[int, int, int]]) -> list[list[int]]:
     V = len(graph)
-    dist = [row[:] for row in graph] 
+    dist = [row[:] for row in graph]
 
     for k in range(V):
         for i in range(V):
@@ -773,6 +822,7 @@ def floyd_warshall(n: int, edges: list[tuple[int, int, int]]) -> list[list[int]]
 ## Heap
 
 ### find top k elements
+
 ```python
 from heapq import heappop, heappush
 
@@ -794,6 +844,7 @@ def fn(arr, k):
 ## Binary Search
 
 ### binary search
+
 ```python
 def fn(arr, target):
     left = 0
@@ -815,6 +866,7 @@ def fn(arr, target):
 ```
 
 ### duplicate elements, left-most insertion point
+
 ```python
 def fn(arr, target):
     left = 0
@@ -833,6 +885,7 @@ def fn(arr, target):
 ```
 
 ### duplicate elements, right-most insertion point
+
 ```python
 def fn(arr, target):
     left = 0
@@ -851,6 +904,7 @@ def fn(arr, target):
 ```
 
 ### greedy (minimum)
+
 ```python
 def fn(arr):
     def check(x):
@@ -872,6 +926,7 @@ def fn(arr):
 ```
 
 ### greedy (maximum)
+
 ```python
 def fn(arr):
     def check(x):
@@ -895,6 +950,7 @@ def fn(arr):
 ## Backtracking
 
 ### backtracking
+
 ```python
 def backtrack(curr, OTHER_ARGUMENTS...):
     if (BASE_CASE):
@@ -915,6 +971,7 @@ def backtrack(curr, OTHER_ARGUMENTS...):
 ## Dynamic Programming
 
 ### DP top-down
+
 ```python
 def fn(arr):
     @cache
@@ -927,6 +984,7 @@ def fn(arr):
 ```
 
 ### DP bottom-up
+
 ```python
 def fn(arr):
     if BASE_CASE:
@@ -945,6 +1003,7 @@ def fn(arr):
 ```
 
 ### Kadane (max-sum subarray)
+
 ```python
 def kadane(arr: list[int]) -> int:
     curr_sub = max_sub = arr[0]
@@ -960,6 +1019,7 @@ def kadane(arr: list[int]) -> int:
 ## Bit Manipulation
 
 ### test kth-bit
+
 ```python
 def test_kth_bit(num: int, k: int) -> bool:
     return num & (1 << k) != 0
@@ -967,18 +1027,21 @@ def test_kth_bit(num: int, k: int) -> bool:
 ```
 
 ### set kth bit
+
 ```python
 def set_kth_bit(num: int, k: int) -> int:
     return num | (1 << k)
 ```
 
 ### clear kth bit
+
 ```python
 def clear_kth_bit(num: int, k: int) -> int:
     return num & ~(1 << k)
 ```
 
 ### toggle kth bit
+
 ```python
 def toggle_kth_bit(num: int, k: int) -> int:
     return num ^ (1 << k)
@@ -986,6 +1049,7 @@ def toggle_kth_bit(num: int, k: int) -> int:
 ```
 
 ### get rightmost bit
+
 ```python
 def get_rightmost_set_bit(num: int) -> int:
     return num & -num
@@ -993,6 +1057,7 @@ def get_rightmost_set_bit(num: int) -> int:
 ```
 
 ### count set bits
+
 ```python
 def count_set_bits(num: int) -> int:
     return bin(num).count('1')
@@ -1000,6 +1065,7 @@ def count_set_bits(num: int) -> int:
 ```
 
 ### multiply by 2^k
+
 ```python
 def multiply_by_power_of_two(num: int, k: int) -> int:
     return num << k
@@ -1007,6 +1073,7 @@ def multiply_by_power_of_two(num: int, k: int) -> int:
 ```
 
 ### divide by 2^k
+
 ```python
 def divide_by_power_of_two(num: int, k: int) -> int:
     return num >> k
@@ -1014,12 +1081,14 @@ def divide_by_power_of_two(num: int, k: int) -> int:
 ```
 
 ### check if number is power of 2
+
 ```python
 def is_power_of_two(num: int) -> bool:
     return (num & (num - 1)) == 0
 ```
 
 ### swap two variables
+
 ```python
 def swap_variables(num1: int, num2: int) -> tuple:
     num1 ^= num2
@@ -1030,19 +1099,21 @@ def swap_variables(num1: int, num2: int) -> tuple:
 ```
 
 ## Matrix
- 
- ### create / copy
- ```python
+
+### create / copy
+
+```python
 def fn(matrix: list[list[int]]):
-    r = len(matrix)
-    c = len(matrix[0])
+   r = len(matrix)
+   c = len(matrix[0])
 
-    create_matrix = [[0 for _ in range(c)] for _ in range(r)]
-    copy_matrix = [row[:] for row in matrix]
+   create_matrix = [[0 for _ in range(c)] for _ in range(r)]
+   copy_matrix = [row[:] for row in matrix]
 
- ```
+```
 
 ### diagonals / anti-diagonals
+
 ```python
 def fn(matrix: list[list[int]]):
     r = len(matrix)
@@ -1054,6 +1125,7 @@ def fn(matrix: list[list[int]]):
 ```
 
 ### rotate / transpose
+
 ```python
 def fn(matrix: list[list[int]]):
     r = len(matrix)
@@ -1069,6 +1141,7 @@ def fn(matrix: list[list[int]]):
 ## Data Structures
 
 ### array
+
 ```python
 from typing import Any
 
@@ -1093,6 +1166,7 @@ class Array:
 ```
 
 ### hash map
+
 ```python
 from typing import Any
 
@@ -1117,6 +1191,7 @@ class HashMap:
 ```
 
 ### linked list
+
 ```python
 from typing import Any
 
@@ -1193,6 +1268,7 @@ class LinkedList:
 ```
 
 ### doubly linked list
+
 ```python
 from typing import Any
 
@@ -1274,6 +1350,7 @@ class DoublyLinkedList:
 ```
 
 ### binary tree
+
 ```python
 from typing import Any
 
@@ -1325,6 +1402,7 @@ class BinaryTree:
 ```
 
 ### binary search tree
+
 ```python
 from typing import Any
 
@@ -1375,6 +1453,7 @@ class BinarySearchTree:
 ```
 
 ### graph
+
 ```python
 class Graph:
     def __init__(self) -> None:
@@ -1404,6 +1483,7 @@ class Graph:
 ```
 
 ### union find
+
 ```python
 class UnionFind:
     def __init__(self, n: int) -> None:
@@ -1437,8 +1517,8 @@ class UnionFind:
         return '\n'.join(lines)
 ```
 
-
 ### union find optimized
+
 ```python
 class UnionFind:
     def __init__(self, n: int) -> None:
@@ -1485,6 +1565,7 @@ class UnionFind:
 ```
 
 ### trie
+
 ```python
 class TrieNode:
     def __init__(self) -> None:
@@ -1565,6 +1646,7 @@ class Trie:
 ```
 
 ### Min Heap
+
 ```python
 class MinHeap:
     def __init__(self):
@@ -1623,11 +1705,11 @@ class MinHeap:
             # If the current node is the smallest among its children/itself, we stop
             if min_index == index:
                 break
-            
+
             # Otherwise, swap and continue heapifying down
             self._swap(index, min_index)
             index = min_index
-            
+
     def insert(self, value):
         """Adds a new element to the heap."""
         self.heap.append(value)
@@ -1657,7 +1739,7 @@ class MinHeap:
     def is_empty(self):
         """Checks if the heap is empty."""
         return len(self.heap) == 0
-    
+
     def size(self):
         """Returns the number of elements in the heap."""
         return len(self.heap)
@@ -1669,7 +1751,9 @@ class MinHeap:
 ## Sorting Algorithms
 
 ### bubble sort
+
 - **Should never used**
+
 ```python
 def bubble_sort(arr: list) -> None:
     n = len(arr)
@@ -1687,6 +1771,7 @@ def bubble_sort(arr: list) -> None:
 ```
 
 ### selection sort
+
 ```python
 def selection_sort(arr: list) -> None:
     n = len(arr)
@@ -1704,6 +1789,7 @@ def selection_sort(arr: list) -> None:
 ```
 
 ### insertion sort
+
 ```python
 def insertion_sort(arr: list) -> None:
     n = len(arr)
@@ -1719,6 +1805,7 @@ def insertion_sort(arr: list) -> None:
 ```
 
 ### shell sort
+
 ```python
 def shell_sort(arr: list) -> None:
     n = len(arr)
@@ -1739,7 +1826,9 @@ def shell_sort(arr: list) -> None:
 ```
 
 ### merge sort
+
 - Should used for LeetCode because it runs faster than quick sort
+
 ```python
 def merge_sort(arr: list) -> list:
     n = len(arr)
@@ -1769,6 +1858,7 @@ def merge(left: list, right: list) -> list:
 ```
 
 ### quick sort
+
 ```python
 def quick_sort(arr: list) -> list:
     n = len(arr)
@@ -1785,6 +1875,7 @@ def quick_sort(arr: list) -> list:
 ```
 
 ### timsort
+
 ```python
 def tim_sort(arr: list) -> list:
     n = len(arr)
@@ -1842,6 +1933,7 @@ def merge(left: list, right: list) -> list:
 ```
 
 ### heap sort
+
 ```python
 def heap_sort(arr: list) -> list:
     n = len(arr)
@@ -1870,6 +1962,7 @@ def heapify(arr: list, n: int, i: int) -> None:
 ```
 
 ### counting sort
+
 ```python
 def counting_sort(arr: list) -> list:
     max_num = max(arr)
@@ -1893,6 +1986,7 @@ def counting_sort(arr: list) -> list:
 ```
 
 ### bucket sort
+
 ```python
 def bucket_sort(arr: list) -> list:
     num_buckets = 10
@@ -1909,6 +2003,7 @@ def bucket_sort(arr: list) -> list:
 ```
 
 ### radix sort
+
 ```python
 def radix_sort(arr: list) -> None:
     max_val = max(arr)
@@ -1944,6 +2039,7 @@ def counting_sort(arr: list, exp: int) -> None:
 ```
 
 ### cubesort
+
 ```python
 def cube_sort(arr: list, processors: int) -> None:
     n = len(arr)
@@ -1973,6 +2069,7 @@ def cube_sort(arr: list, processors: int) -> None:
 ```
 
 ### bogo sort
+
 ```python
 import random
 
@@ -1986,6 +2083,7 @@ def bogo_sort(arr: list) -> None:
 ```
 
 ### pancake sort
+
 ```python
 def pancake_sort(arr: list) -> None:
     n = len(arr)
@@ -2017,6 +2115,7 @@ def find_max_index(arr: list, n: int) -> int:
 ```
 
 ### sleep sort
+
 ```python
 def pancake_sort(arr: list) -> None:
     n = len(arr)
